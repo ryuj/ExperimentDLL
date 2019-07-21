@@ -1,18 +1,23 @@
 using System;
 using System.Runtime.InteropServices;
-// using System.Reflection;
+using System.Reflection;
 using Sample;
 
 class MyMain
 {
     public static void Main(string[] args)
     {
+        if (true)
+        {
+            InDll.LogStringSplit();
+        }
+
         // アセンブリ位置
         if (false)
         {
             Console.WriteLine("-- out DLL --");
             Console.WriteLine(typeof(int).Assembly.Location);
-            Console.WriteLine(typeof(Uri).Assembly.Location);
+            // Console.WriteLine(typeof(Uri).Assembly.Location);
             Console.WriteLine(typeof(string).Assembly.Location);
 
             Console.WriteLine(InDll.GetAssemblyLocation());
@@ -21,13 +26,13 @@ class MyMain
         // 関数一覧
         if (false)
         {
-            // var s = "";
-            // foreach (var v in typeof(string).GetMethods(BindingFlags.Public | BindingFlags.Instance))
-            // {
-            //     s += v.ToString();
-            //     s += "\n";
-            // }
-            // Console.WriteLine(s);
+            var s = "";
+            foreach (var v in typeof(string).GetMethods(BindingFlags.Public | BindingFlags.Instance))
+            {
+                s += v.ToString();
+                s += "\n";
+            }
+            Console.WriteLine(s);
 
             Console.WriteLine(InDll.GetMethodNames());
         }
@@ -47,19 +52,37 @@ class MyMain
         }
 
         // string.Split 動かす
-        if (true)
+        if (false)
         {
             var s = "abc.def";
             {
-                var a = s.Split('.', StringSplitOptions.None);
+                // どっちかで呼ばれる
+                var a = s.Split('.');
+                foreach (var v in a)
+                {
+                    Console.WriteLine(v);
+                }
+            }
+            // {
+            //     // .NET には存在しない
+            //     var a = s.Split('.', StringSplitOptions.None);
+            //     foreach (var v in a)
+            //     {
+            //         Console.WriteLine(v);
+            //     }
+            // }
+            {
+                // params
+                char[] sp = {'.'};
+                var a = s.Split(sp);
                 foreach (var v in a)
                 {
                     Console.WriteLine(v);
                 }
             }
             {
-                char[] sp = {'.'};
-                var a = s.Split(sp);
+                // params 付き関数が存在
+                var a = s.Split('.', ',', ',', ',', ',', ',');
                 foreach (var v in a)
                 {
                     Console.WriteLine(v);
