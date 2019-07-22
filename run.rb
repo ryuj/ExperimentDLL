@@ -52,6 +52,9 @@ def main
     op3 = "/nostdlib /nostdlib+"
     op3 = ""
 
+    executor = "mono"
+    executor = "/Applications/Unity/Hub/Editor/2017.4.25f1/Unity.app/Contents/MonoBleedingEdge/bin/mono"
+
     line = "----------"
     run "rm -f #{dll_name}"
     run "rm -f #{main_name}.exe"
@@ -60,7 +63,7 @@ def main
     puts line
     run "#{cmd} -r:#{dll_name} #{main_name}.cs"
     puts line
-    run "mono #{main_name}.exe"
+    run "#{executor} #{main_name}.exe"
 end
 
 def run(cmd)
